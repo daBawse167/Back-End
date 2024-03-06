@@ -11,10 +11,20 @@ collection = db["user_accounts"]
 
 # Function to generate random verification code
 def generate_verification_code():
+    """
+    return: a random 6 digit code made from letters and numbers.
+
+    """
     return ''.join(random.choices(string.ascii_letters + string.digits, k=6))
 
 # Function to send verification email
-def send_verification_email(email, code):
+def send_verification_email(email:str, code:str):
+    """
+
+    email:the email the user would like to use
+    code: verification code sent to the user
+    
+    """
     msg = EmailMessage()
     msg.set_content(f"Your verification code is: {code}")
     msg['Subject'] = 'Account Verification Code'
@@ -27,6 +37,14 @@ def send_verification_email(email, code):
 
 # Main function to create account
 def create_account():                          #needs some requiredments for usersnames emails and passwords
+
+    """
+
+    creates the account from a username email and password given by the user
+    
+    """
+
+
     username = input("Enter username: ")
     email = input("Enter email address: ")     
     password = input("Enter password: ")
