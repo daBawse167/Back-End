@@ -9,21 +9,21 @@ client = pymongo.MongoClient("mongodb+srv://tomH:mbWS0uIrROmONBOv@biodevice.3jz8
 db = client["your_database"]
 collection = db["user_accounts"]
 
-# Function to generate random verification code
+
 def generate_verification_code():
     """
-    return: a random 6 digit code made from letters and numbers.
+    Generate a random 6-digit code made from letters and numbers.
 
+    :return: The generated verification code as a string.
     """
     return ''.join(random.choices(string.ascii_letters + string.digits, k=6))
 
-# Function to send verification email
 def send_verification_email(email:str, code:str):
     """
+    Send a verification email to the specified email address.
 
-    email:the email the user would like to use
-    code: verification code sent to the user
-    
+    :param email: The email address to send the verification email to.
+    :param code: The verification code to include in the email.
     """
     msg = EmailMessage()
     msg.set_content(f"Your verification code is: {code}")
@@ -35,18 +35,16 @@ def send_verification_email(email:str, code:str):
         smtp.login('your_email@example.com', 'your_password')
         smtp.send_message(msg)
 
-# Main function to create account
-def create_account():                          #needs some requiredments for usersnames emails and passwords
+#needs some requiredments for usersnames emails and passwords
+def create_account():
 
     """
+    Creates an account using a username, email, and password provided by the user.
 
-    creates the account from a username email and password given by the user
-    
+    :return: True if the account is created successfully, False otherwise.
     """
-
-
     username = input("Enter username: ")
-    email = input("Enter email address: ")     
+    email = input("Enter email address: ")
     password = input("Enter password: ")
 
     #verification_code = generate_verification_code()
@@ -56,19 +54,14 @@ def create_account():                          #needs some requiredments for use
 
     #if user_input_code == verification_code:
 
-
-
-
-    account = {                                     ##indent this out once / if we have a smtp server
+    ##indent this out once / if we have a smtp server
+    account = {
         "username": username,
         "email": email,
         "password": password,
-        "verified": False  # all account are currently unverifiable
-    }   
-    result = collection.insert_one(account)   
-    
-        
-    #verification account was actually made
+        "verified": False  # all accounts are currently unverifiable
+    }
+    result = collection.insert_one(account)
 
     # Check if insertion was successful
     if result.inserted_id:
@@ -77,6 +70,11 @@ def create_account():                          #needs some requiredments for use
     else:
         print("Failed to create account.")
         return False     
+        return False     
+    #    print("Account created successfully!")
+    #else:
+    #    print("Verification code does not match. Account creation failed.")
+        return False
     #    print("Account created successfully!")
     #else:
     #    print("Verification code does not match. Account creation failed.")
