@@ -77,7 +77,14 @@ item_14 = {"item_name" : "maple syrup",
 "order_date" : order_date
 }
 
-# Insert all the documents at once
-from pymongo_test_insert import get_database
-dbname = get_database()
-dbname["user_1_items"].insert_many([item_4,item_5,item_6,item_7,item_8,item_9,item_10,item_11,item_12, item_13, item_14])
+def insert_data(dicts):
+    import certifi
+    from pymongo import MongoClient
+    uri = 'mongodb+srv://tomH:mbWS0uIrROmONBOv@biodevice.3jz8qms.mongodb.net/?retryWrites=true&w=majority&appName=Biodevice'
+    client = MongoClient(uri, tlsCAFile=certifi.where())
+    db = client["Firebase"]
+    collection = db['Firebase_data']
+    # Insert the data into the collection
+    result = collection.insert_many(dicts)
+    # Print the ID of the inserted document
+    print("Data inserted with ID:", result.inserted_ids)
